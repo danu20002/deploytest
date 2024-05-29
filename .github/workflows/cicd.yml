@@ -36,6 +36,7 @@ jobs:
       - name: Deploy to Azure App Service
         uses: azure/webapps-deploy@v2
         with:
+
            app-name: springboot-app-testing
            publish-profile: ${{ secrets.azureWebAppPublishProfile }}
            package: "*.jar"
