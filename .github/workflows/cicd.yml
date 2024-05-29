@@ -1,5 +1,4 @@
- name: Deploy App to Azure App Service
-
+name: Deploy App to Azure App Service
 
 on:
   push:
@@ -10,20 +9,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Check Source
-      uses: actions/checkout@v3
-    - name: Setup Java
-      uses: actions/setup-java@v3
-      with:
-        distribution: "temurin"
-        java-version: "17"
-    - name: Build Project
-      run: mvn clean install -DskipTests
-    - name: Upload Artifact for deployment job
-      uses: actions/upload-artifact@v2
-      with:
-        name: deploytest
-        path: ${{ github.workspace }}/target/*.jar
+      - name: Check Source
+        uses: actions/checkout@v3
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: "temurin"
+          java-version: "17"
+      - name: Build Project
+        run: mvn clean install -DskipTests
+      - name: Upload Artifact for deployment job
+        uses: actions/upload-artifact@v2
+        with:
+          name: deploytest
+          path: ${{ github.workspace }}/target/*.jar
 
   deploy:
     runs-on: ubuntu-latest
@@ -36,7 +35,6 @@ jobs:
       - name: Deploy to Azure App Service
         uses: azure/webapps-deploy@v2
         with:
-
-           app-name: springboot-app-testing
-           publish-profile: ${{ secrets.azureWebAppPublishProfile }}
-           package: "*.jar"
+          app-name: springboot-app-testing
+          publish-profile: ${{ secrets.azureWebAppPublishProfile }}
+          package: ${{ github.workspace }}/deploytest/*.jar
