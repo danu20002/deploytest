@@ -32,6 +32,10 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: deploytest
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: Deploy to Azure App Service
         uses: azure/webapps-deploy@v2
         with:
